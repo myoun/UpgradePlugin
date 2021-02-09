@@ -1,12 +1,10 @@
 package kr.myoung2.upgrade.listeners
 
-import kr.myoung2.upgrade.Upgrade
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.entity.Item
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -84,7 +82,14 @@ class EnchantGUIListener : Listener {
             val impMeta = improveStone.itemMeta
             impMeta.setDisplayName(isName)
             improveStone.setItemMeta(impMeta)
-            if (p.inventory.itemInOffHand.itemMeta.displayName == isName){
+
+            if (p.inventory.itemInOffHand == null){
+                p.sendMessage("${ChatColor.GOLD}반대쪽 손에 강화석이 없습니다.")
+            }
+            else if (!(p.inventory.itemInOffHand.itemMeta.displayName.equals(isName))){
+                p.sendMessage("${ChatColor.GOLD}반대쪽 손에 강화석이 아닌 다른 아이템이 있습니다.")
+            }
+            else{
                 if (item != null)
                 {
                     val enchants = Enchantment.values()
