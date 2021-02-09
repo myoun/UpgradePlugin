@@ -83,35 +83,39 @@ class EnchantGUIListener : Listener {
             impMeta.setDisplayName(isName)
             improveStone.setItemMeta(impMeta)
 
-            if (p.inventory.itemInOffHand == null){
+            if (p.inventory.itemInOffHand.type == Material.AIR){
                 p.sendMessage("${ChatColor.GOLD}반대쪽 손에 강화석이 없습니다.")
             }
-            else if (!(p.inventory.itemInOffHand.itemMeta.displayName.equals(isName))){
-                p.sendMessage("${ChatColor.GOLD}반대쪽 손에 강화석이 아닌 다른 아이템이 있습니다.")
-            }
             else{
-                if (item != null)
-                {
-                    val enchants = Enchantment.values()
-                    enchants.shuffle()
-                    val mec = meta?.enchants
-                    for (i in mec?.keys!!) {
-                        meta.removeEnchant(i)
+                if (p.inventory.itemInOffHand.itemMeta.displayName != isName) {
+                    p.sendMessage("${ChatColor.GOLD}반대쪽 손에 강화석이 아닌 다른 아이템이 있습니다.")
+                    p.sendMessage("${p.inventory.itemInOffHand.itemMeta.displayName.equals(isName)}")
+                }
+
+
+                else {
+                    if (item != null) {
+                        val enchants = Enchantment.values()
+                        enchants.shuffle()
+                        val mec = meta?.enchants
+                        for (i in mec?.keys!!) {
+                            meta.removeEnchant(i)
+                        }
+                        for (i in 1..rand(1, 7)) {
+
+                            val enchant = enchants[i] as Enchantment
+                            meta.addEnchant(enchant, rand(1, 6), true)
+                        }
+                        val nowStack = p.inventory.itemInOffHand
+                        nowStack.amount = nowStack.amount - 1
+
+                        p.playSound(p.location, Sound.BLOCK_ANVIL_USE, 30.0f, 1.0f)
+                        p.sendMessage("${ChatColor.GOLD}강화가 끝났습니다.")
+
+                        item.itemMeta = meta
+
+                        e.clickedInventory?.setItem(13, item)
                     }
-                    for (i in 1..rand(1, 7)) {
-
-                        val enchant = enchants[i] as Enchantment
-                        meta.addEnchant(enchant, rand(1, 6), true)
-                    }
-                    val nowStack  = p.inventory.itemInOffHand
-                    nowStack.amount = nowStack.amount-1
-
-                    p.playSound(p.location, Sound.BLOCK_ANVIL_USE,30.0f,1.0f)
-                    p.sendMessage("${ChatColor.GOLD}강화가 끝났습니다.")
-
-                    item.itemMeta = meta
-
-                    e.clickedInventory?.setItem(13, item)
                 }
             }
         }
