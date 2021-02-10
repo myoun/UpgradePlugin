@@ -8,10 +8,7 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.event.inventory.InventoryCloseEvent
-import org.bukkit.event.inventory.InventoryOpenEvent
-import org.bukkit.event.inventory.InventoryType
+import org.bukkit.event.inventory.*
 import java.util.Random
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
@@ -89,12 +86,11 @@ class EnchantGUIListener : Listener {
             else{
                 if (p.inventory.itemInOffHand.itemMeta.displayName != isName) {
                     p.sendMessage("${ChatColor.GOLD}반대쪽 손에 강화석이 아닌 다른 아이템이 있습니다.")
-                    p.sendMessage("${p.inventory.itemInOffHand.itemMeta.displayName.equals(isName)}")
                 }
 
 
                 else {
-                    if (item != null) {
+                    if (item?.type != Material.AIR) {
                         val enchants = Enchantment.values()
                         enchants.shuffle()
                         val mec = meta?.enchants
