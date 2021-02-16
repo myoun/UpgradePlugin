@@ -10,6 +10,7 @@ version = "1.0.0"
 
 repositories {
     mavenCentral()
+    maven("https://jitpack.io")
 }
 
 spigot {
@@ -25,6 +26,7 @@ spigot {
 dependencies {
     implementation(kotlin("stdlib"))
     compileOnly(paper("1.16.4"))
+    compileOnly("com.github.spigradle.spigradle:kr.entree.spigradle.base.gradle.plugin:v2.2.3")
 }
 
 val shade = configurations.create("shade")
